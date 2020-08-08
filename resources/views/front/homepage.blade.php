@@ -65,25 +65,8 @@
     </div>
 </div>
 
-
-<!-- Categories -->
 <div class="col-md-3">
-    <div class="card">
-        <div class="card-header">
-            Kategoriler
-        </div>
-    </div>
-    <div class="list-group">
-        <li class="list-group-item">
-            <a href="#">C# </a><span class="float-right">(12)</span>
-        </li>
-        <li class="list-group-item">
-            <a href="#">.Net Core</a> <span class="float-right">(5)</span>
-        </li>
-        <li class="list-group-item">
-            <a href="#">SQL </a><span class="float-right">(4)</span>
-        </li>
-    </div>
+    @include('front.widgets.categoryWidget')
 </div>
 
 @endsection
