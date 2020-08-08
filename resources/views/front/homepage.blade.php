@@ -68,10 +68,21 @@
 
 <!-- Categories -->
 <div class="col-md-3">
+    <div class="card">
+        <div class="card-header">
+            Kategoriler
+        </div>
+    </div>
     <div class="list-group">
-        <a href="#" class="list-group-item">C# <span class="badge">12</span></a>
-        <a href="#" class="list-group-item">.Net Core <span class="badge">5</span></a>
-        <a href="#" class="list-group-item">SQL <span class="badge">4</span></a>
+        <li class="list-group-item">
+            <a href="#">C# </a><span class="float-right">(12)</span>
+        </li>
+        <li class="list-group-item">
+            <a href="#">.Net Core</a> <span class="float-right">(5)</span>
+        </li>
+        <li class="list-group-item">
+            <a href="#">SQL </a><span class="float-right">(4)</span>
+        </li>
     </div>
 </div>
 
