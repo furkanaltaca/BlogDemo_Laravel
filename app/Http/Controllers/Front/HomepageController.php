@@ -13,9 +13,26 @@ class HomepageController extends Controller
 {
     public function index()
     {
-        $categories = Category::inRandomOrder()->get();
-        $news=News::orderBy('created_at','DESC')->get();
+        $data['categories'] = Category::inRandomOrder()->get();
+        $data['news']  = News::orderBy('created_at', 'DESC')->get();
 
-        return view('front.homepage', compact('categories', 'news'));
+        return view('front.homepage', $data);
+    }
+
+    public function post($category, $slug)
+    {
+        $category = Category::where('slug', $category)->first() ?? abort(404, 'Böyle bir kategori bulunamadı.');
+        $data['categories'] = Category::inRandomOrder()->get();
+
+        $newsItem = News::where([
+            ['slug', '=', $slug],
+            ['category_id', '=', $category->id]
+        ])->first() ?? abort(404, 'Böyle bir yazı bulunamadı.');
+        $data['newsItem'] = $newsItem;
+        $newsItem->increment('hit');
+
+        // dd($newsItem);
+
+        return view('front.post', $data);
     }
 }

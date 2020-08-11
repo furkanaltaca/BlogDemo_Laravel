@@ -21,7 +21,7 @@ class NewsSeeder extends Seeder
             $news=new News([
                 'category_id'=>rand(33,40),
                 'title'=>$title,
-                'image'=>$faker->imageUrl('1200', '800', 'cats', true, 'News_Image', true),
+                'image'=>$faker->imageUrl('800', '400', 'cats', true),
                 'content'=>$faker->paragraph(6),
                 'slug'=>Str::slug($title),
                 'created_at'=>$faker->dateTime('now'),

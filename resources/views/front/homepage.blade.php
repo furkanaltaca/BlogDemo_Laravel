@@ -7,12 +7,13 @@
 <div class="col-md-9 mx-auto">
     @foreach($news as $newsItem)
     <div class="post-preview">
-        <a href="post.html">
+        <a href="{{ route('post',[$newsItem->getCategory->slug,$newsItem->slug]) }}">
             <h2 class="post-title">
                 {{$newsItem->title}}
             </h2>
+            <img src="{{$newsItem->image}}">
             <h3 class="post-subtitle">
-                {{Str::limit($newsItem->content,80)}}
+                {!!Str::limit($newsItem->content,150)!!}
             </h3>
         </a>
         <p class="post-meta">

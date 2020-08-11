@@ -13,4 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'Front\HomepageController@index');
+Route::get('/', 'Front\HomepageController@index')->name('homepage');
+Route::get('/{category}/{slug}', 'Front\HomepageController@post')->name('post');
