@@ -7,10 +7,13 @@
 </div>
 <div class="list-group">
     @foreach($categories as $category)
-    <li class="list-group-item @if(Request::segment(2)==$category->slug) active @endif">
-        <a @if(Request::segment(2)!=$category->slug) href="{{route('category',$category->slug)}}" @endif >{{$category->name}} </a>
+    <a 
+    class="list-group-item @if(Request::segment(2)==$category->slug) active @endif "
+    @if(Request::segment(2)!=$category->slug) href="{{ route('category',$category->slug) }}" @endif
+    >
+        {{$category->name}}
         <span class="float-right">({{$category->getNewsCount()}})</span>
-    </li>
+    </a>
     @endforeach
 </div>
 @endif
