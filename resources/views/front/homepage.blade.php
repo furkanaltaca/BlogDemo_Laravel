@@ -1,6 +1,6 @@
 @extends('front.layouts.master')
 @section('title', 'Anasayfa / Blog Demo')
-@section('headerTitle', 'Anasayfa')
+@section('headerTitle', 'Blog Demo')
 
 @section('content')
 
@@ -18,7 +18,7 @@
             </h3>
         </a>
         <p class="post-meta">
-            Kategori: <a href="#">{{$newsItem->getCategory->name}}</a>
+            Kategori: <a href="{{route('category',$newsItem->getCategory->slug)}}">{{$newsItem->getCategory->name}}</a>
             <span class="float-right">{{$newsItem->created_at->diffForHumans()}}</span>
         </p>
     </div>

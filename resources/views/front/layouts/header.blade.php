@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="{{route('homepage')}}">Anasayfa</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="about.html">About</a>
@@ -36,7 +36,7 @@
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="site-heading">
           <h2>@yield('headerTitle', 'Blog Demo')</h2>
-          <!-- <span class="subheading">A Blog Theme by Start Bootstrap</span> -->
+          <span class="subHeaderTitle">@yield('subHeaderTitle')</span>
         </div>
       </div>
     </div>
