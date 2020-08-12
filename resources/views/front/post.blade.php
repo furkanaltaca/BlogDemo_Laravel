@@ -1,5 +1,6 @@
 @extends('front.layouts.master')
-@section('title', $newsItem->title)
+@section('title', Str::limit($newsItem->title,40).' / Blog Demo')
+@section('headerTitle', $newsItem->title)
 @section('headerBg', $newsItem->image)
 
 @section('content')

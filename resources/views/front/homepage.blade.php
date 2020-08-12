@@ -1,5 +1,6 @@
 @extends('front.layouts.master')
 @section('title', 'Anasayfa / Blog Demo')
+@section('headerTitle', 'Anasayfa')
 
 @section('content')
 
