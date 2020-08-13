@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Front\HomepageController@index')->name('homepage');
 Route::get('/kategori/{categorySlug}','Front\HomepageController@category')->name('category');
+Route::get('/{pageSlug}','Front\HomepageController@page')->name('page');
 Route::get('/{categorySlug}/{postSlug}', 'Front\HomepageController@post')->name('post');

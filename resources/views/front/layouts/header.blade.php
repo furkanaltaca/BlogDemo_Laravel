@@ -13,15 +13,13 @@
         <li class="nav-item">
           <a class="nav-link" href="{{route('homepage')}}">Anasayfa</a>
         </li>
+        @isset($pages)
+        @foreach ($pages as $page)
         <li class="nav-item">
-          <a class="nav-link" href="about.html">About</a>
+          <a class="nav-link" href="{{ route('page',$page->slug) }}">{{$page->title}}</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="post.html">Sample Post</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="contact.html">Contact</a>
-        </li>
+        @endforeach
+        @endisset
       </ul>
     </div>
   </div>

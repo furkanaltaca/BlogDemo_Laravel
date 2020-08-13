@@ -8,14 +8,35 @@ use Illuminate\Http\Request;
 //Models
 use App\Models\Category;
 use App\Models\News;
+use App\Models\Page;
 
 class HomepageController extends Controller
 {
+    public function __construct()
+    {
+        view()->share('pages', Page::orderBy('order', 'ASC')->get());
+        view()->share('categories', Category::orderBy('name')->get());
+    }
+    
     public function index()
     {
         $data['news'] = News::orderBy('created_at', 'DESC')->paginate(2);
-        $data['categories'] = Category::orderBy('name')->get();
         return view('front.homepage', $data);
+    }
+
+    public function page($pageSlug)
+    {
+        $page = Page::where('slug', $pageSlug)->first() ?? abort(404, 'Sayfa bulunamadı.');
+        $data['page'] = $page;
+        return view('front.page', $data);
+    }
+
+    public function category($categorySlug)
+    {
+        $category = Category::where('slug', $categorySlug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı.');
+        $data['news']  = News::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(1);
+        $data['category'] = $category;
+        return view('front.category', $data);
     }
 
     public function post($categorySlug, $postSlug)
@@ -27,16 +48,7 @@ class HomepageController extends Controller
         ])->first() ?? abort(404, 'Böyle bir yazı bulunamadı.');
         $newsItem->increment('hit');
         $data['newsItem'] = $newsItem;
-        $data['categories'] = Category::orderBy('name')->get();
         return view('front.post', $data);
     }
 
-    public function category($categorySlug)
-    {
-        $category = Category::where('slug', $categorySlug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı.');
-        $data['news']  = News::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(1);
-        $data['category'] = $category;
-        $data['categories'] = Category::orderBy('name')->get();
-        return view('front.category', $data);
-    }
 }
