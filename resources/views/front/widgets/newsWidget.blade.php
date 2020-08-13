@@ -25,6 +25,7 @@
 <hr>
 @endif
 @endforeach
+
 <div class="float-right">
     {{ $news->links() }}
 </div>

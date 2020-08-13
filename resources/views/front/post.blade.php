@@ -5,7 +5,6 @@
 
 @section('content')
 
-<!-- Post Content -->
 <div class="col-md-9">
     {!!$newsItem->content!!}
     <br>

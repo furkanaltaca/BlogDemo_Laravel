@@ -1,6 +1,5 @@
 @isset($categories)
 
-<!-- Categories -->
 <div class="card">
     <div class="card-header">
         Kategoriler
@@ -12,7 +11,7 @@
         @if(Request::segment(2)!=$category->slug) href="{{ route('category',$category->slug) }}" @endif
         >
         {{$category->name}}
-        <span class="float-right">({{$category->getNewsCount()}})</span>
+        <span class="float-right">({{ $category->getNewsCount() }})</span>
     </a>
     @endforeach
 </div>
