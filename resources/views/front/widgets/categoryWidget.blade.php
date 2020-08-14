@@ -18,6 +18,6 @@
 
 @else
 <div class="alert alert-danger">
-    <h6>Kategoriler yüklenemedi.</h6>
+    Kategoriler yüklenemedi.
 </div>
 @endif

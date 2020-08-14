@@ -32,6 +32,6 @@
 
 @else
 <div class="alert alert-danger">
-    <h6>Yazı bulunamadı.</h6>
+    Yazı bulunamadı.
 </div>
 @endif

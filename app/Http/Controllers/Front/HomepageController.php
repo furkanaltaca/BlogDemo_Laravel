@@ -4,11 +4,13 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 //Models
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Page;
+use App\Models\Contact;
 
 class HomepageController extends Controller
 {
@@ -49,6 +51,29 @@ class HomepageController extends Controller
         $newsItem->increment('hit');
         $data['newsItem'] = $newsItem;
         return view('front.post', $data);
+    }
+
+    public function contact()
+    {
+        return view('front.contact');
+    }
+
+    public function contactPost(Request $request)
+    {
+        $validate= Validator::make(
+            $request->post(),
+            Contact::getRules()
+        );
+
+        if ($validate->fails()) {
+            return redirect()->route('contact')->withErrors($validate)->withInput();
+        }
+
+        $contact= new Contact($request->all());
+        $contact->save();
+        // print_r($contact);
+
+        return redirect()->route('contact')->with('success','Teşekkürler '.$contact->name.'. Mesajınız tarafımıza iletilmiştir.');
     }
 
 }

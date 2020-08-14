@@ -20,6 +20,9 @@
         </li>
         @endforeach
         @endisset
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('contact') }}">İletişim</a>
+        </li>
       </ul>
     </div>
   </div>
