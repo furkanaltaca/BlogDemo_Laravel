@@ -19,7 +19,7 @@ class NewsSeeder extends Seeder
         for ($i=0; $i < 5; $i++) {
             $title=$faker->sentence(6);
             $news=new News([
-                'category_id'=>rand(33,40),
+                'category_id'=>rand(1,8),
                 'title'=>$title,
                 'image'=>$faker->imageUrl('800', '400', 'cats', true),
                 'content'=>$faker->paragraph(6),

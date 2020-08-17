@@ -15,8 +15,7 @@ class PageSeeder extends Seeder
     {
         $pages = [
             'Hakkımızda',
-            'Kariyer',
-            'İletişim',
+            'Kariyer'
         ];
 
         $count=0;
