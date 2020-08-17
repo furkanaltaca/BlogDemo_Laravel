@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Route;
 | Backend Routes
 |--------------------------------------------------------------------------
 */
-
-Route::get('/admin/panel','Back\DashboardController@index')->name('admin.dashboard');
-Route::get('/admin/giris','Back\AuthController@login')->name('admin.login');
-Route::post('/admin/giris','Back\AuthController@loginPost')->name('admin.login.post');
-Route::get('/admin/cikis','Back\AuthController@logout')->name('admin.logout');
+ 
+Route::prefix('admin')->name('admin.')->middleware('IsAdmin')->group(function (){
+    Route::get('giris','Back\AuthController@login')->name('login')->middleware('IsLoggedIn')->withoutMiddleware('IsAdmin');
+    Route::post('giris','Back\AuthController@loginPost')->name('login.post')->middleware('IsLoggedIn')->withoutMiddleware('IsAdmin');
+    Route::get('panel','Back\DashboardController@index')->name('dashboard');
+    Route::get('cikis','Back\AuthController@logout')->name('logout');
+});
 
 
 
