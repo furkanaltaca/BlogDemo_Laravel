@@ -9,7 +9,7 @@ class Category extends Model
     protected $table='categories';
     protected $fillable=['name','slug'];
 
-    public function getNewsCount(){
-        return $this->hasMany('App\Models\News','category_id','id')->count();
+    public function getArticlesCount(){
+        return $this->hasMany('App\Models\Article','category_id','id')->count();
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 //Models
 use App\Models\Category;
-use App\Models\News;
+use App\Models\Article;
 use App\Models\Page;
 use App\Models\Contact;
 
@@ -22,7 +22,7 @@ class HomepageController extends Controller
     
     public function index()
     {
-        $data['news'] = News::orderBy('created_at', 'DESC')->paginate(2);
+        $data['articles'] = Article::orderBy('created_at', 'DESC')->paginate(2);
         return view('front.homepage', $data);
     }
 
@@ -36,7 +36,7 @@ class HomepageController extends Controller
     public function category($categorySlug)
     {
         $category = Category::where('slug', $categorySlug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı.');
-        $data['news']  = News::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(1);
+        $data['articles']  = Article::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(1);
         $data['category'] = $category;
         return view('front.category', $data);
     }
@@ -44,12 +44,12 @@ class HomepageController extends Controller
     public function post($categorySlug, $postSlug)
     {
         $category = Category::where('slug', $categorySlug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı.');
-        $newsItem = News::where([
+        $article = Article::where([
             ['slug', '=', $postSlug],
             ['category_id', '=', $category->id]
         ])->first() ?? abort(404, 'Böyle bir yazı bulunamadı.');
-        $newsItem->increment('hit');
-        $data['newsItem'] = $newsItem;
+        $article->increment('hit');
+        $data['article'] = $article;
         return view('front.post', $data);
     }
 

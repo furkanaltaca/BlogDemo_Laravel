@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\News;
+use App\Models\Article;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class NewsSeeder extends Seeder
+class ArticleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,7 @@ class NewsSeeder extends Seeder
         $faker=Faker::create();
         for ($i=0; $i < 5; $i++) {
             $title=$faker->sentence(6);
-            $news=new News([
+            $article=new Article([
                 'category_id'=>rand(1,8),
                 'title'=>$title,
                 'image'=>$faker->imageUrl('800', '400', 'cats', true),
@@ -28,7 +28,7 @@ class NewsSeeder extends Seeder
                 'updated_at'=>$faker->dateTime('now')
             ]);
 
-            $news->save();
+            $article->save();
         }
     }
 }

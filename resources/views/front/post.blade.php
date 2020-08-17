@@ -1,21 +1,21 @@
 @extends('front.layouts.master')
-@section('title', Str::limit($newsItem->title,40).' / Blog Demo')
-@section('headerTitle', $newsItem->title)
-@section('headerBg', $newsItem->image)
+@section('title', Str::limit($article->title,40).' / Blog Demo')
+@section('headerTitle', $article->title)
+@section('headerBg', $article->image)
 
 @section('content')
 
 <div class="col-md-9">
-    {!!$newsItem->content!!}
+    {!!$article->content!!}
     <br>
     <br>
     <span class="text-danger">
-        Bu yazı <b>{{ $newsItem->hit }}</b> kez okundu.
+        Bu yazı <b>{{ $article->hit }}</b> kez okundu.
     </span>
 </div>
 
 <div class="col-md-3">
-    @include('front.widgets.categoryWidget')
+    @include('front.widgets.categoriesWidget')
 </div>
 <hr>
 

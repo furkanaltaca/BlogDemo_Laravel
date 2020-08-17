@@ -5,11 +5,11 @@
 @section('content')
 
 <div class="col-md-9 mx-auto">
-    @include('front.widgets.newsWidget')
+    @include('front.widgets.articlesWidget')
 </div>
 
 <div class="col-md-3">
-    @include('front.widgets.categoryWidget')
+    @include('front.widgets.categoriesWidget')
 </div>
 
 @endsection

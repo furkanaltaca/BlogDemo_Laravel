@@ -11,7 +11,7 @@
         @if(Request::segment(2)!=$category->slug) href="{{ route('category',$category->slug) }}" @endif
         >
         {{$category->name}}
-        <span class="float-right">({{ $category->getNewsCount() }})</span>
+        <span class="float-right">({{ $category->getArticlesCount() }})</span>
     </a>
     @endforeach
 </div>
