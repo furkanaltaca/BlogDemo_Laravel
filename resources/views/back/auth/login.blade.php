@@ -39,22 +39,22 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Blog Demo Giriş</h1>
                   </div>
-                  <form class="user">
+                  @if ($errors->any())
+                      <div class="alert alert-danger">{{ $errors->first() }}</div>
+                  @endif
+                  <form class="user" method="POST" action="{{ route('admin.login.post') }}">
+                    @csrf
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="email" aria-describedby="emailHelp" placeholder="Email">
+                      <input type="email" class="form-control form-control-user" name="email" id="email" aria-describedby="emailHelp" placeholder="Email"
+                      value="furkanaltaca@gmail.com">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="password" placeholder="Şifre">
+                      <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Şifre"
+                      value="123qwe">
                     </div>
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox small">
-                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                        <label class="custom-control-label" for="customCheck">Beni hatırla</label>
-                      </div>
-                    </div>
-                    <a href="index.html" class="btn btn-primary btn-user btn-block">
+                    <button type="submit" class="btn btn-primary btn-user btn-block">
                       Giriş
-                    </a>
+                    </button>
                   </form>
                 </div>
               </div>
