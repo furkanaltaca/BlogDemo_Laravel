@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Back;
 
-use App\Models\Article;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+use App\Models\Article;
+use App\Models\Category;
 
 class ArticleController extends Controller
 {
@@ -15,7 +18,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $data['articles']=Article::orderBy('created_at','DESC')->get();
+        $data['articles'] = Article::orderBy('created_at', 'DESC')->get();
         return view('back.articles.index', $data);
     }
 
@@ -26,7 +29,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        $data['categories'] = Category::all();
+        return view('back.articles.create', $data);
     }
 
     /**
@@ -37,7 +41,18 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(Article::getRules());
+
+        $article = new Article($request->all());
+        $article->slug = Str::slug($article->title);
+        $imageName = $article->slug . '.' . $article->image->getClientOriginalExtension();
+        $article->image->move(public_path('uploads/articleImages'), $imageName);
+        $article->image = 'uploads/articleImages/' . $imageName;
+
+        $article->save();
+
+        toastr()->success('Makale eklendi.', 'İşlem Başarılı');
+        return redirect()->route('admin.makaleler.index');
     }
 
     /**

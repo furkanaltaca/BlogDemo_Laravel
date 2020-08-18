@@ -20,7 +20,7 @@ class CreateArticlesTable extends Migration
             $table->string('image');
             $table->longText('content');
             $table->integer('hit')->default(0);
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->integer('status')->default(0)->comment("0:disable, 1:enable");
             $table->timestamps();
 

@@ -160,7 +160,11 @@ return [
         'name'=>'Ad Soyad',
         'email'=>'Email',
         'topic'=>'Konu',
-        'message'=>'Mesaj'
+        'message'=>'Mesaj',
+        'title'=>'Başlık',
+        'category_id'=>'Kategori',
+        'image'=>'Fotoğraf',
+        'content'=>'İçerik'
     ],
 
 ];
