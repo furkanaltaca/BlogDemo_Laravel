@@ -32,7 +32,7 @@
                     @foreach ($articles as $article)
                     <tr>
                         <td>
-                            <img src="{{ $article->image }}" alt="{{ $article->image }}" width="150">
+                            <img src="{{ asset($article->image) }}" alt="{{ asset($article->image) }}" width="150">
                         </td>
                         <td class="align-middle">{{ $article->title }}</td>
                         <td class="align-middle">{{ $article->getCategory->name }}</td>

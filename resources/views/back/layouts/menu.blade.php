@@ -10,7 +10,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item @if(Request::segment(2)=="panel") active @endif">
+    <li class="nav-item {{ Request::is('admin/panel') ? 'active' : null }}">
       <a href="{{ route('admin.dashboard') }}" class="nav-link" >
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Panel</span></a>
@@ -25,16 +25,16 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item @if(Request::segment(2)=="makaleler") active @endif">
-      <a class="nav-link @if(Request::segment(2)=="makaleler") in @else collapsed @endif" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+    <li class="nav-item {{ Request::is('admin/makaleler') ? 'active' : null }}">
+      <a class="nav-link {{ Request::is('admin/makaleler') ? 'in' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-edit"></i>
         <span>Makaleler</span>
       </a>
-      <div id="collapseTwo" class="collapse @if(Request::segment(2)=="makaleler") show @endif" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+      <div id="collapseTwo" class="collapse {{ Request::is('admin/makaleler') || Request::is('admin/makaleler/*')  ? 'show' : null }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Makale İşlemleri:</h6>
-          <a class="collapse-item @if(Request::segment(2)=="makaleler") active @endif" href="{{ route('admin.makaleler.index') }}">Tüm Makaleler</a>
-          <a class="collapse-item" href="cards.html">Makale Oluştur</a>
+          <a class="collapse-item {{ Request::is('admin/makaleler') ? 'active' : null }}" href="{{ route('admin.makaleler.index') }}">Tüm Makaleler</a>
+          <a class="collapse-item {{ Request::is('admin/makaleler/create') ? 'active' : null }}" href="{{ route('admin.makaleler.create') }}">Makale Oluştur</a>
         </div>
       </div>
     </li>
