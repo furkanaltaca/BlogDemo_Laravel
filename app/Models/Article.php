@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
@@ -15,9 +16,18 @@ class Article extends Model
         'slug'
     ];
 
+    public static function set(Article $article)
+    {
+        $article->slug = Str::slug($article->title);
+        $imageName = $article->slug . '.' . $article->image->getClientOriginalExtension();
+        $article->image->move(public_path('uploads/articleImages'), $imageName);
+        $article->image = 'uploads/articleImages/' . $imageName;
+
+        return $article;
+    }
+
     public function getCategory()
     {
-
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }
 

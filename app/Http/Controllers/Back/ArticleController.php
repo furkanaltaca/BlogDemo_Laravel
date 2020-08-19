@@ -43,12 +43,7 @@ class ArticleController extends Controller
     {
         $request->validate(Article::getRules());
 
-        $article = new Article($request->all());
-        $article->slug = Str::slug($article->title);
-        $imageName = $article->slug . '.' . $article->image->getClientOriginalExtension();
-        $article->image->move(public_path('uploads/articleImages'), $imageName);
-        $article->image = 'uploads/articleImages/' . $imageName;
-
+        $article = Article::set(new Article($request->all()));
         $article->save();
 
         toastr()->success('Makale eklendi.', 'İşlem Başarılı');
