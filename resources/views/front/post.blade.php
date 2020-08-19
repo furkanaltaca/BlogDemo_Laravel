@@ -1,7 +1,7 @@
 @extends('front.layouts.master')
 @section('title', Str::limit($article->title,40).' / Blog Demo')
 @section('headerTitle', $article->title)
-@section('headerBg', $article->image)
+@section('headerBg', asset($article->image))
 
 @section('content')
 
