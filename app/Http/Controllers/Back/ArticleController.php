@@ -41,6 +41,12 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        $isExistArticle = Article::where('slug', Str::slug($request->title))->get();
+        if (count($isExistArticle) > 0) {
+            $message = 'Bu başlıkta bir makale zaten mevcut. Farklı bir başlık giriniz.';
+            return redirect()->route('admin.makaleler.create')->withErrors($message)->withInput();
+        }
+
         $request->validate(Article::getRules());
 
         $article = Article::set(new Article($request->all()));
@@ -53,35 +59,57 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show(int $id)
     {
-        //
+        return $id;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Article $article)
+    public function edit($id)
     {
-        //
+        $data['article'] = Article::findOrFail($id);
+        $data['categories'] = Category::all();
+        return view('back.articles.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required|min:3',
+            'category_id' => 'required',
+            'image' => 'image|mimes:jpeg,jpg,png|max:2048',
+            'content' => 'required',
+        ]);
+
+        $article = Article::findOrFail($id);
+        $article->fill($request->all());
+        $article = Article::set($article);
+        $article->save();
+
+        toastr()->success('Başarılı', 'Makale güncellendi.');
+        return redirect()->route('admin.makaleler.index');
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $article = Article::findOrFail($request->id);
+        $article->status = $request->status=="true" ? 1 : 0;
+        $article->save();
     }
 
     /**

@@ -18,6 +18,7 @@ Route::prefix('admin')->name('admin.')->middleware('IsAdmin')->group(function ()
     Route::get('panel', 'Back\DashboardController@index')->name('dashboard');
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');
     Route::resource('makaleler', 'Back\ArticleController');
+    Route::get('/updateStatus','Back\ArticleController@updateStatus')->name('makaleler.updateStatus');
 });
 
 

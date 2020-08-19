@@ -1,7 +1,6 @@
 @extends('back.layouts.master')
-@section('title','Admin Makale Oluştur - Blog Demo')
-@section('pageHeading','Makale Oluştur')
-
+@section('title','Admin Makale Düzenle - Blog Demo')
+@section('pageHeading','Makale Düzenle')
 
 @section('content')
 
@@ -17,31 +16,33 @@
             @endforeach
         </div>
         @endif
-        <form method="POST" action="{{ route('admin.makaleler.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.makaleler.update', $article->id) }}" enctype="multipart/form-data">
+            @method('PUT')
             @csrf
             <div class="form-group">
                 <label for="title">Başlık</label>
                 <input type="text" name="title" id="title" class="form-control" placeholder="Başlık" required
-                    value="{{ old('title') }}">
+                    value="{{ $article->title }}">
             </div>
             <div class="form-group">
                 <label for="category_id">Kategori</label>
                 <select class="form-control" name="category_id" id="category_id" required>
                     <option value="">Kategori Seçiniz</option>
                     @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" @if($category->id==old('category_id')) selected
+                    <option value="{{ $category->id }}" @if($category->id==$article->category_id) selected
                         @endif>{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group">
-                <label for="image">Fotoğraf:</label>
-                <input type="file" name="image" id="image" class="form-control" required>
+                <label for="image">Fotoğraf:</label> <br>
+                <img src="{{ asset($article->image) }}" alt="{{ asset($article->image) }}" class="img-thumbnail rounded" width="200">
+                <input type="file" name="image" id="image" class="form-control">
             </div>
             <div class="form-group">
                 <label for="content">İçerik:</label>
                 <textarea name="content" id="articleContent" rows="7" class="form-control" required
-                    >{{ old('content') }}</textarea>
+                    >{{ $article->content }}</textarea>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block">Makaleyi Kaydet</button>
