@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 
 class Article extends Model
@@ -19,10 +20,12 @@ class Article extends Model
     public static function set(Article $article)
     {
         $article->slug = Str::slug($article->title);
-        $imageName = $article->slug . '.' . $article->image->getClientOriginalExtension();
-        $article->image->move(public_path('uploads/articleImages'), $imageName);
-        $article->image = 'uploads/articleImages/' . $imageName;
 
+        if ($article->image instanceof UploadedFile) {
+            $imageName = $article->slug . '.' . $article->image->getClientOriginalExtension();
+            $article->image->move(public_path('uploads/articleImages'), $imageName);
+            $article->image = 'uploads/articleImages/' . $imageName;
+        }
         return $article;
     }
 
@@ -34,10 +37,10 @@ class Article extends Model
     public static function getRules(): array
     {
         $rules = [
-            'title'=>'required|min:3',
-            'category_id'=>'required',
-            'image'=>'required|image|mimes:jpeg,jpg,png|max:200',
-            'content'=>'required',
+            'title' => 'required|min:3',
+            'category_id' => 'required',
+            'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'content' => 'required',
         ];
         return $rules;
     }
