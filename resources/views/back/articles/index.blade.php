@@ -32,8 +32,10 @@
                     @foreach ($articles as $article)
                     <tr>
                         <td>
-                            <a href="{{ asset($article->image) }}" target="_blank" data-toggle="popover-hover" data-img="{{ asset($article->image) }}">
-                                {{ Str::limit(Str::substr($article->image,22),16) }}
+                            <a href="{{ asset($article->image) }}" target="_blank" data-toggle="popover-hover"
+                                data-img="{{ asset($article->image) }}">
+                                Fotoğraf
+                                {{-- {{ Str::limit(Str::substr($article->image,22),16) }} --}}
                             </a>
                         </td>
                         <td class="align-middle">{{ $article->title }}</td>
@@ -41,7 +43,7 @@
                         <td class="align-middle text-center">{{ $article->hit }}</td>
                         <td class="align-middle">{{ $article->created_at->diffforhumans() }}</td>
                         <td class="align-middle text-center">
-                            <input type="checkbox" class="enableArticleSwitch" article_id="{{ $article->id }}"
+                            <input type="checkbox" data-event="ArticleStatusSwitch" article-id="{{ $article->id }}"
                                 data-on="Aktif" data-off="Pasif" data-onstyle="success" data-offstyle="danger"
                                 @if($article->status==1)
                             checked @endif data-toggle="toggle">
@@ -63,8 +65,8 @@
                                         <i class="fa fa-pen"></i>
                                         Düzenle
                                     </a>
-                                    <a href="#" class="dropdown-item">
-                                        <i class="fa fa-times"></i>
+                                    <a href="{{ route('admin.makaleler.delete',$article->id) }}" data-event="ArticleDelete" article-id="{{ $article->id }}" class="dropdown-item">
+                                        <i class="fa fa-trash"></i>
                                         Sil
                                     </a>
                                 </div>
@@ -91,20 +93,6 @@
 <script src="{{ asset('back/') }}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script src="{{ asset('back/') }}/js/demo/datatables-demo.js"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-<script>
-    $(".enableArticleSwitch").change(function(){
-        var id=$(this)[0].getAttribute('article_id');
-        var status=$(this).prop('checked');
-        $.get("{{ route('admin.makaleler.updateStatus') }}",{id:id, status:status},function(data,status){
-            toastr.success('Durum güncellendi.','Başarılı');
-        });
-    });
 
-    $('[data-toggle="popover-hover"]').popover({
-      html: true,
-      trigger: 'hover',
-      placement: 'bottom',
-      content: function () { return '<img src="' + $(this).data('img') + '" / class="w-50">'; }
-    });
-</script>
+<script src="{{ asset('js/back/articles/index.js') }}" type="text/javascript"></script>
 @endpush
