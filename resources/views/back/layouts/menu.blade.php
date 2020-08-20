@@ -39,10 +39,12 @@
       data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Makale İşlemleri:</h6>
-        <a class="collapse-item {{ Request::is('admin/makaleler') ? 'active' : null }}"
+        <a class="collapse-item {{ Request::routeIs('admin.makaleler.index') ? 'active' : null }}"
           href="{{ route('admin.makaleler.index') }}">Tüm Makaleler</a>
-        <a class="collapse-item {{ Request::is('admin/makaleler/olustur') ? 'active' : null }}"
+        <a class="collapse-item {{ Request::routeIs('admin.makaleler.create') ? 'active' : null }}"
           href="{{ route('admin.makaleler.create') }}">Makale Oluştur</a>
+        <a class="collapse-item {{ Request::routeIs('admin.makaleler.trashed') ? 'active' : null }}"
+          href="{{ route('admin.makaleler.trashed') }}">Silinen Makaleler</a>
       </div>
     </div>
   </li>
