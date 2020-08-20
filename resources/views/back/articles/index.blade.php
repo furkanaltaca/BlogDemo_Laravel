@@ -32,7 +32,9 @@
                     @foreach ($articles as $article)
                     <tr>
                         <td>
-                            <img src="{{ asset($article->image) }}" alt="{{ asset($article->image) }}" width="150">
+                            <a href="{{ asset($article->image) }}" target="_blank" data-toggle="popover-hover" data-img="{{ asset($article->image) }}">
+                                {{ Str::limit(Str::substr($article->image,22),16) }}
+                            </a>
                         </td>
                         <td class="align-middle">{{ $article->title }}</td>
                         <td class="align-middle">{{ $article->getCategory->name }}</td>
@@ -96,6 +98,13 @@
         $.get("{{ route('admin.makaleler.updateStatus') }}",{id:id, status:status},function(data,status){
             toastr.success('Durum güncellendi.','Başarılı');
         });
+    });
+
+    $('[data-toggle="popover-hover"]').popover({
+      html: true,
+      trigger: 'hover',
+      placement: 'bottom',
+      content: function () { return '<img src="' + $(this).data('img') + '" / class="w-50">'; }
     });
 </script>
 @endpush
