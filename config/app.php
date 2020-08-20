@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         
         Yoeunes\Toastr\ToastrServiceProvider::class,
+        Tightenco\Ziggy\ZiggyServiceProvider::class,
     ],
 
     /*
