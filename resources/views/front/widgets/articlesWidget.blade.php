@@ -6,7 +6,9 @@
         <h2 class="post-title">
             {{ $article->title }}
         </h2>
-        <img src="{{ asset($article->image) }}">
+        <div class="w-50 m-auto">
+            <img src="{{ asset($article->image) }}" alt="{{ asset($article->image) }}" class="img-fluid">
+        </div>
         <h3 class="post-subtitle">
             {!! Str::limit($article->content,150) !!}
         </h3>
