@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 use App\Models\Article;
 use App\Models\Category;
@@ -108,7 +109,7 @@ class ArticleController extends Controller
     public function updateStatus(Request $request)
     {
         $article = Article::findOrFail($request->id);
-        $article->status = $request->status=="true" ? 1 : 0;
+        $article->status = $request->status == "true" ? 1 : 0;
         $article->save();
     }
 
@@ -118,8 +119,42 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
+    public function delete($id)
+    {
+        Article::find($id)->delete();
+        toastr()->success('Makale silinen makalelere taşındı.', 'Başarılı');
+        return redirect()->route('admin.makaleler.index');
+    }
+
+    public function recover($id)
+    {
+        Article::onlyTrashed()->find($id)->restore();
+        toastr()->success('Makale geri alındı.', 'Başarılı');
+        return redirect()->route('admin.makaleler.trashed');
+    }
+
+    public function hardDelete($id)
+    {
+        $article = Article::onlyTrashed()->find($id);
+        if (File::exists(public_path($article->image))) {
+            File::delete(public_path($article->image));
+        }
+        $article->forceDelete();
+
+        toastr()->success('Makale kalıcı olarak silindi.', 'Başarılı');
+        return redirect()->route('admin.makaleler.trashed');
+    }
+
     public function destroy(Article $article)
     {
         //
+    }
+
+
+    public function trashed()
+    {
+        $data['articles'] = Article::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
+
+        return view('back.articles.trashed', $data);
     }
 }
