@@ -17,8 +17,13 @@ Route::prefix('admin')->name('admin.')->middleware('IsAdmin')->group(function ()
     Route::post('giris', 'Back\AuthController@loginPost')->name('login.post')->middleware('IsLoggedIn')->withoutMiddleware('IsAdmin');
     Route::get('panel', 'Back\DashboardController@index')->name('dashboard');
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');
+
+    Route::get('makaleler/silinenler','Back\ArticleController@trashed')->name('makaleler.trashed');
+    Route::get('makaleler/updateStatus','Back\ArticleController@updateStatus')->name('makaleler.updateStatus');
+    Route::get('makaleler/deleteArticle/{id}','Back\ArticleController@delete')->name('makaleler.delete');
+    Route::get('makaleler/recoverArticle/{id}','Back\ArticleController@recover')->name('makaleler.recover');
+    Route::get('makaleler/hardDeleteArticle/{id}','Back\ArticleController@hardDelete')->name('makaleler.hardDelete');
     Route::resource('makaleler', 'Back\ArticleController');
-    Route::get('/updateStatus','Back\ArticleController@updateStatus')->name('makaleler.updateStatus');
 });
 
 
