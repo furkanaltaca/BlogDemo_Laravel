@@ -14,7 +14,8 @@ class Article extends Model
         'title',
         'image',
         'content',
-        'slug'
+        'slug',
+        'status'
     ];
 
     public static function set(Article $article)

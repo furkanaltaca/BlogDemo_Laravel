@@ -10,6 +10,6 @@ class Category extends Model
     protected $fillable=['name','slug'];
 
     public function getArticlesCount(){
-        return $this->hasMany('App\Models\Article','category_id','id')->count();
+        return $this->hasMany('App\Models\Article','category_id','id')->where('status',1)->count();
     }
 }

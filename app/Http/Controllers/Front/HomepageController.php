@@ -19,10 +19,10 @@ class HomepageController extends Controller
         view()->share('pages', Page::orderBy('order', 'ASC')->get());
         view()->share('categories', Category::orderBy('name')->get());
     }
-    
+
     public function index()
     {
-        $data['articles'] = Article::orderBy('created_at', 'DESC')->paginate(2);
+        $data['articles'] = Article::where('status', 1)->orderBy('created_at', 'DESC')->paginate(2);
         return view('front.homepage', $data);
     }
 
@@ -36,7 +36,10 @@ class HomepageController extends Controller
     public function category($categorySlug)
     {
         $category = Category::where('slug', $categorySlug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı.');
-        $data['articles']  = Article::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(1);
+        $data['articles']  = Article::where([
+            ['category_id', '=', $category->id],
+            ['status', '=', 1]
+        ])->orderBy('created_at', 'DESC')->paginate(1);
         $data['category'] = $category;
         return view('front.category', $data);
     }
@@ -46,7 +49,8 @@ class HomepageController extends Controller
         $category = Category::where('slug', $categorySlug)->first() ?? abort(404, 'Böyle bir kategori bulunamadı.');
         $article = Article::where([
             ['slug', '=', $postSlug],
-            ['category_id', '=', $category->id]
+            ['category_id', '=', $category->id],
+            ['status', '=', 1]
         ])->first() ?? abort(404, 'Böyle bir yazı bulunamadı.');
         $article->increment('hit');
         $data['article'] = $article;
@@ -60,7 +64,7 @@ class HomepageController extends Controller
 
     public function contactPost(Request $request)
     {
-        $validate= Validator::make(
+        $validate = Validator::make(
             $request->post(),
             Contact::getRules()
         );
@@ -69,11 +73,10 @@ class HomepageController extends Controller
             return redirect()->route('contact')->withErrors($validate)->withInput();
         }
 
-        $contact= new Contact($request->all());
+        $contact = new Contact($request->all());
         $contact->save();
         // print_r($contact);
 
-        return redirect()->route('contact')->with('success','Teşekkürler '.$contact->name.'. Mesajınız tarafımıza iletilmiştir.');
+        return redirect()->route('contact')->with('success', 'Teşekkürler ' . $contact->name . '. Mesajınız tarafımıza iletilmiştir.');
     }
-
 }
