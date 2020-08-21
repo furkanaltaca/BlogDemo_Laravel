@@ -25,17 +25,17 @@
     İçerik Yönetimi
   </div>
 
-  <!-- Nav Item - Pages Collapse Menu -->
+  <!-- Nav Item - Articles Collapse Menu -->
   @php
   $isActiveArticleMenu = Request::is('admin/makaleler') || Request::is('admin/makaleler/*');
   @endphp
   <li class="nav-item {{ $isActiveArticleMenu ? 'active' : null }}">
     <a class="nav-link {{ $isActiveArticleMenu ? 'in' : 'collapsed' }}" href="#" data-toggle="collapse"
-      data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+      data-target="#collapseArticle" aria-expanded="true" aria-controls="collapseArticle">
       <i class="fas fa-fw fa-edit"></i>
       <span>Makaleler</span>
     </a>
-    <div id="collapseTwo" class="collapse {{ $isActiveArticleMenu ? 'show' : null }} " aria-labelledby="headingTwo"
+    <div id="collapseArticle" class="collapse {{ $isActiveArticleMenu ? 'show' : null }} " aria-labelledby="headingTwo"
       data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Makale İşlemleri:</h6>
@@ -49,22 +49,15 @@
     </div>
   </li>
 
-  <!-- Nav Item - Utilities Collapse Menu -->
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true"
-      aria-controls="collapseUtilities">
-      <i class="fas fa-fw fa-wrench"></i>
-      <span>Utilities</span>
+  <!-- Nav Item - Categories Collapse Menu -->
+  @php
+  $isActiveCategoryMenu = Request::is('admin/kategoriler') || Request::is('admin/kategoriler/*');
+  @endphp
+  <li class="nav-item {{ $isActiveCategoryMenu ? 'active' : null }}">
+    <a href="{{ route('admin.kategoriler.index') }}" class="nav-link">
+      <i class="fas fa-fw fa-list"></i>
+      <span>Kategoriler</span>
     </a>
-    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Custom Utilities:</h6>
-        <a class="collapse-item" href="utilities-color.html">Colors</a>
-        <a class="collapse-item" href="utilities-border.html">Borders</a>
-        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-        <a class="collapse-item" href="utilities-other.html">Other</a>
-      </div>
-    </div>
   </li>
 
   <!-- Divider -->

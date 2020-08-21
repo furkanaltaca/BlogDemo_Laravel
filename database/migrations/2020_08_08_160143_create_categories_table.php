@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->integer('status')->default(1)->comment('0:disable, 1:enable');
             $table->timestamps();
         });
     }

@@ -10,20 +10,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('admin')->name('admin.')->middleware('IsAdmin')->group(function () {
-    Route::get('/', function () {
+    Route::get('/', function(){
         return redirect()->route('admin.dashboard');
     });
+    Route::get('panel', 'Back\DashboardController@index')->name('dashboard');
+
     Route::get('giris', 'Back\AuthController@login')->name('login')->middleware('IsLoggedIn')->withoutMiddleware('IsAdmin');
     Route::post('giris', 'Back\AuthController@loginPost')->name('login.post')->middleware('IsLoggedIn')->withoutMiddleware('IsAdmin');
-    Route::get('panel', 'Back\DashboardController@index')->name('dashboard');
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');
 
+    // Article Routes
     Route::get('makaleler/silinenler','Back\ArticleController@trashed')->name('makaleler.trashed');
     Route::get('makaleler/updateStatus','Back\ArticleController@updateStatus')->name('makaleler.updateStatus');
     Route::get('makaleler/deleteArticle/{id}','Back\ArticleController@delete')->name('makaleler.delete');
     Route::get('makaleler/recoverArticle/{id}','Back\ArticleController@recover')->name('makaleler.recover');
     Route::get('makaleler/hardDeleteArticle/{id}','Back\ArticleController@hardDelete')->name('makaleler.hardDelete');
     Route::resource('makaleler', 'Back\ArticleController');
+    // End Article Routes
+
+    // Category Routes
+    Route::get('kategoriler','Back\CategoryController@index')->name('kategoriler.index');
+    Route::post('kategoriler/create','Back\CategoryController@create')->name('kategoriler.create');
+    Route::get('kategoriler/updateStatus','Back\CategoryController@updateStatus')->name('kategoriler.updateStatus');
+
+    // End Category Routes
 });
 
 
