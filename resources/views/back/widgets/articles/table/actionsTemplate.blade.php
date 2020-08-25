@@ -11,7 +11,7 @@
             <i class="fa fa-pen"></i>
             Düzenle
         </a>
-        <a href="javascript:void(0);" data-event="ArticleDelete"
+        <a href="javascript:void(0);" data-event="DeleteArticle"
             data-article-id="{{ $article->id }}" class="dropdown-item">
             <i class="fa fa-trash"></i>
             Sil
