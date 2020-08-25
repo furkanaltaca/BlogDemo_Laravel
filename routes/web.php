@@ -20,11 +20,11 @@ Route::prefix('admin')->name('admin.')->middleware('IsAdmin')->group(function ()
     Route::get('cikis', 'Back\AuthController@logout')->name('logout');
 
     // Article Routes
+    Route::put('makaleler/updateStatus','Back\ArticleController@updateStatus')->name('makaleler.updateStatus');
+    Route::delete('makaleler/delete','Back\ArticleController@delete')->name('makaleler.delete');
     Route::get('makaleler/silinenler','Back\ArticleController@trashed')->name('makaleler.trashed');
-    Route::get('makaleler/updateStatus','Back\ArticleController@updateStatus')->name('makaleler.updateStatus');
-    Route::get('makaleler/deleteArticle/{id}','Back\ArticleController@delete')->name('makaleler.delete');
-    Route::get('makaleler/recoverArticle/{id}','Back\ArticleController@recover')->name('makaleler.recover');
-    Route::get('makaleler/hardDeleteArticle/{id}','Back\ArticleController@hardDelete')->name('makaleler.hardDelete');
+    Route::post('makaleler/recover','Back\ArticleController@recover')->name('makaleler.recover');
+    Route::post('makaleler/hardDelete','Back\ArticleController@hardDelete')->name('makaleler.hardDelete');
     Route::resource('makaleler', 'Back\ArticleController');
     // End Article Routes
 
