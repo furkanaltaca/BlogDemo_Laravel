@@ -34,7 +34,7 @@ $(document).ready(function () {
         }
     });
     var cbUpdateArticleStatus = '[data-event="UpdateArticleStatus"]';
-    var btnArticleDelete = '[data-event="ArticleDelete"]';
+    var btnDeleteArticle = '[data-event="ArticleDelete"]';
     //END ARRANGE
     //-------------------------------------------------------------------------
     //EVENT
@@ -56,7 +56,7 @@ $(document).ready(function () {
         });
     });
 
-    articleDatatable.on("click", btnArticleDelete, function () {
+    articleDatatable.on("click", btnDeleteArticle, function () {
         var params = {
             id: $(this).data('article-id')
         };
