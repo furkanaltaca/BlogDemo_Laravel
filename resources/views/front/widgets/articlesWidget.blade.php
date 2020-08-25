@@ -2,7 +2,7 @@
 
 @foreach($articles as $article)
 <div class="post-preview">
-    <a href="{{ route('post',[ $article->getCategory->slug,$article->slug ]) }}">
+    <a href="{{ route('post',[ $article->category->slug,$article->slug ]) }}">
         <h2 class="post-title">
             {{ $article->title }}
         </h2>
@@ -15,8 +15,8 @@
     </a>
     <p class="post-meta">
         Kategori:
-        <a href="{{ route('category',$article->getCategory->slug) }}">
-            {{ $article->getCategory->name }}
+        <a href="{{ route('category',$article->category->slug) }}">
+            {{ $article->category->name }}
         </a>
         <span class="float-right">
             {{ $article->created_at->diffForHumans() }}

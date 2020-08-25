@@ -1,7 +1,7 @@
 @extends('front.layouts.master')
 @section('title', $category->name.' / Blog Demo')
 @section('headerTitle', $category->name.' Kategorisi')
-@section('subHeaderTitle', $category->getArticlesCount().' yazı bulundu.')
+@section('subHeaderTitle', $category->articles()->count().' yazı bulundu.')
 
 @section('content')
 
