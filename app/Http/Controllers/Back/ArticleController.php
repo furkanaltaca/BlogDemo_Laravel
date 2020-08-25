@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
 
 use App\Models\Article;
 use App\Models\Category;
@@ -17,8 +18,34 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if (request()->ajax()) {
+            $query = Article::query()->with("category");
+            $table = DataTables::of($query);
+
+            $table->addColumn('created_at',function($row){
+                return $row->created_at->diffforhumans();
+            });
+            
+            $table->addColumn('image', function ($row) {
+                $data['image'] = $row->image;
+                return view('back.widgets.articles.table.imageTemplate', $data);
+            });
+
+            $table->addColumn('status', function ($row) {
+                $data['article'] = $row;
+                return view('back.widgets.articles.table.statusTemplate', $data);
+            });
+
+            $table->addColumn('actions', function ($row) {
+                $data['article'] = $row;
+                return view('back.widgets.articles.table.actionsTemplate', $data);
+            });
+
+            return $table->make(true);
+        }
+
         $data['articles'] = Article::orderBy('created_at', 'DESC')->get();
         return view('back.articles.index', $data);
     }
@@ -65,6 +92,9 @@ class ArticleController extends Controller
      */
     public function show(int $id)
     {
+        // dd($article);
+        // $article = Article::findOrFail($article->id);
+        // dd($article);
         return $id;
     }
 
@@ -111,6 +141,7 @@ class ArticleController extends Controller
         $article = Article::findOrFail($request->id);
         $article->status = $request->status == "true" ? 1 : 0;
         $article->save();
+        return response()->json(['message'=>'Durum güncellendi.', 'messageTitle'=>'Başarılı']);
     }
 
     /**
@@ -119,42 +150,58 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    
+    public function destroy($id)
     {
         Article::find($id)->delete();
-        toastr()->success('Makale silinen makalelere taşındı.', 'Başarılı');
-        return redirect()->route('admin.makaleler.index');
+        return response()->json(['message'=>'Makale silindi.', 'messageTitle'=>'Başarılı']);
     }
 
-    public function recover($id)
+    public function recover(Request $request)
     {
-        Article::onlyTrashed()->find($id)->restore();
-        toastr()->success('Makale geri alındı.', 'Başarılı');
-        return redirect()->route('admin.makaleler.trashed');
+        Article::onlyTrashed()->find($request->id)->restore();
+        return response()->json(['message'=>'Makale kurtarıldı.','messageTitle'=>'Başarılı']);
     }
 
-    public function hardDelete($id)
+    public function hardDelete(Request $request)
     {
-        $article = Article::onlyTrashed()->find($id);
+        $article = Article::onlyTrashed()->find($request->id);
         if (File::exists(public_path($article->image))) {
             File::delete(public_path($article->image));
         }
         $article->forceDelete();
-
-        toastr()->success('Makale kalıcı olarak silindi.', 'Başarılı');
-        return redirect()->route('admin.makaleler.trashed');
+        return response()->json(['message'=>'Makale kalıcı olarak silindi.','messageTitle'=>'Başarılı']);
     }
-
-    public function destroy(Article $article)
-    {
-        //
-    }
-
 
     public function trashed()
     {
-        $data['articles'] = Article::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
+        if (request()->ajax()) {
+            $query = Article::query()->onlyTrashed()->orderBy('deleted_at', 'desc')->with("category");
+            $table = DataTables::of($query);
 
+            $table->addColumn('created_at',function($row){
+                return $row->created_at->diffforhumans();
+            });
+
+            $table->addColumn('image', function ($row) {
+                $data['image'] = $row->image;
+                return view('back.widgets.articles.table.imageTemplate', $data);
+            });
+
+            $table->addColumn('status', function ($row) {
+                $data['article'] = $row;
+                return view('back.widgets.articles.table.statusTemplate', $data);
+            });
+
+            $table->addColumn('actions', function ($row) {
+                $data['article'] = $row;
+                return view('back.widgets.articles.table.actionsForTrashedTemplate', $data);
+            });
+
+            return $table->make(true);
+        }
+
+        $data['articles'] = Article::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
         return view('back.articles.trashed', $data);
     }
 }
