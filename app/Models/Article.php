@@ -33,7 +33,7 @@ class Article extends Model
         return $article;
     }
 
-    public function getCategory()
+    public function category()
     {
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }
