@@ -8,10 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>@yield('title', 'Admin Dashboard - Blog Demo')</title>
 
-    @routes
+    {{-- url --}}
+    @stack('url')
+    {{-- end url --}}
 
     {{-- css --}}
     <link href="{{ asset('back/') }}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -67,7 +70,6 @@
     <script src="{{ asset('back/') }}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('back/') }}/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="{{ asset('back/') }}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <script src="{{ asset('back/') }}/js/demo/datatables-demo.js"></script>
     <script src="{{ asset('back/') }}/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="{{ asset('back/') }}/js/sb-admin-2.min.js"></script>
     <script src="{{ asset('back/') }}/vendor/chart.js/Chart.min.js"></script>
@@ -75,6 +77,14 @@
     <script src="{{ asset('back/') }}/js/demo/chart-pie-demo.js"></script>
     @toastr_js
     @toastr_render
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 
     @stack('js')
 
