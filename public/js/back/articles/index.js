@@ -34,7 +34,7 @@ $(document).ready(function () {
         }
     });
     var cbUpdateArticleStatus = '[data-event="UpdateArticleStatus"]';
-    var btnDeleteArticle = '[data-event="ArticleDelete"]';
+    var btnDeleteArticle = '[data-event="DeleteArticle"]';
     //END ARRANGE
     //-------------------------------------------------------------------------
     //EVENT
@@ -45,7 +45,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            type: "PUT",
+            type: "PATCH",
             url: urlUpdateArticleStatus,
             data: params,
             dataType: 'json'
@@ -53,6 +53,8 @@ $(document).ready(function () {
             toastr.success(result.message, result.messageTitle);
         }).fail(function (result) {
             toastr.error(result.message, "Hata");
+        }).always(function(){
+            reloadDatatable();
         });
     });
 
@@ -60,15 +62,15 @@ $(document).ready(function () {
         var params = {
             id: $(this).data('article-id')
         };
-        var ajax = $.ajax({
+
+        $.ajax({
             type: "DELETE",
-            url: urlDeleteArticle,
-            data: params,
+            url: urlDeleteArticle + '/' + params.id,
             dataType: "json",
         }).done(function (result) {
             toastr.success(result.message, result.messageTitle);
         }).fail(function (result) {
-            toastr.error(result.message, "Hata");
+            toastr.error(result.responseJSON.message, "Hata");
         }).always(function () {
             reloadDatatable();
         });
