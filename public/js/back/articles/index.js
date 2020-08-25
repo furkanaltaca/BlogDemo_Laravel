@@ -1,33 +1,84 @@
 $(document).ready(function () {
-    $('[data-event="ArticleStatusSwitch"]').on("change", function () {
-        var id = $(this)[0].getAttribute("article-id");
-        var status = $(this).prop("checked");
-        $.get(
-            route('admin.makaleler.updateStatus'),
-            { id: id, status: status },
-            function (data, status) {
-                toastr.success("Durum güncellendi.", "Başarılı");
-            }
-        );
-    });
-
-    // $('[data-event="ArticleDelete"]').on("click", function () {
-    //     var id = $(this)[0].getAttribute("article-id");
-    //     $.get(
-    //         "delete/",
-    //         { id: id },
-    //         function (data, status) {
-    //             toastr.success("Makale silindi.", "Başarılı");
-    //         }
-    //     );
-    // });
-
-    $('[data-toggle="popover-hover"]').popover({
-        html: true,
-        trigger: "hover",
-        placement: "bottom",
-        content: function () {
-            return '<img src="' + $(this).data("img") + '" / class="w-50">';
+    //ARRANGE
+    var articleDatatable = $("#articleDatatable").DataTable({
+        // dom: "Bfrtip",
+        // processing: true,
+        // serverSide: true,
+        // responsive: true,
+        pageLength: 5,
+        lengthMenu: [5, 10, 25, 50, 100],
+        ajax: {
+            type: "GET",
+            url: urlGetAllArticle,
+            data: {},
+            dataType: "json",
         },
+        columns: [
+            { data: "image" },
+            { data: "title" },
+            { data: "category.name" },
+            { data: "hit" },
+            { data: "created_at" },
+            { data: "status" },
+            { data: "actions" },
+        ],
+        drawCallback: function () {
+            $('[data-toggle="showImage-popover"]').popover({
+                html: true,
+                trigger: "hover",
+                placement: "bottom",
+                content: function () {
+                    return '<img src="' + $(this).data("img") + '" / class="w-50">';
+                },
+            });
+        }
     });
+    var cbUpdateArticleStatus = '[data-event="UpdateArticleStatus"]';
+    var btnArticleDelete = '[data-event="ArticleDelete"]';
+    //END ARRANGE
+    //-------------------------------------------------------------------------
+    //EVENT
+    articleDatatable.on('change', cbUpdateArticleStatus, function () {
+        var params = {
+            id: $(this).data("article-id"),
+            status: $(this).prop("checked")
+        };
+
+        $.ajax({
+            type: "PUT",
+            url: urlUpdateArticleStatus,
+            data: params,
+            dataType: 'json'
+        }).done(function (result) {
+            toastr.success(result.message, result.messageTitle);
+        }).fail(function (result) {
+            toastr.error(result.message, "Hata");
+        });
+    });
+
+    articleDatatable.on("click", btnArticleDelete, function () {
+        var params = {
+            id: $(this).data('article-id')
+        };
+        var ajax = $.ajax({
+            type: "DELETE",
+            url: urlDeleteArticle,
+            data: params,
+            dataType: "json",
+        }).done(function (result) {
+            toastr.success(result.message, result.messageTitle);
+        }).fail(function (result) {
+            toastr.error(result.message, "Hata");
+        }).always(function () {
+            reloadDatatable();
+        });
+    });
+    //END EVENT
+    //-------------------------------------------------------------------------
+    //FUNCTIONS
+    function reloadDatatable() {
+        articleDatatable.ajax.reload();
+    }
+    //END FUNCTIONS
+    //-------------------------------------------------------------------------
 });
